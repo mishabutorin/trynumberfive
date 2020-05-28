@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.251" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.WelcomeViewController">
+   <children>
+      <VBox layoutX="81.0" layoutY="50.0" prefHeight="300.0" prefWidth="238.0" style="-fx-alignment: center; -fx-spacing: 20;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="81.0" AnchorPane.rightAnchor="81.0" AnchorPane.topAnchor="50.0">
+         <children>
+            <Button fx:id="startButton" mnemonicParsing="false" onAction="#startButtonAction" style="-fx-background-color: black;" text="Start" textFill="WHITE">
+               <font>
+                  <Font name="Unispace-Bold" size="28.0" />
+               </font>
+            </Button>
+            <Button fx:id="settingsButton" layoutY="100.0" mnemonicParsing="false" onAction="#settingsButtonAction" prefHeight="60.0" prefWidth="188.0" style="-fx-background-color: black;" text="Settings" textFill="WHITE">
+               <font>
+                  <Font name="Unispace-Bold" size="28.0" />
+               </font>
+            </Button>
+            <Button fx:id="scoreButton" mnemonicParsing="false" onAction="#scoreButtonAction" prefHeight="60.0" prefWidth="254.0" style="-fx-background-color: black;" text="High scores" textFill="WHITE">
+               <font>
+                  <Font name="Unispace-Bold" size="28.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#exit" style="-fx-background-color: black;" text="Exit" textFill="WHITE">
+               <font>
+                  <Font name="Unispace-Bold" size="28.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

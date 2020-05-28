@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.ChooseGameController">
+   <children>
+      <VBox layoutX="30.0" layoutY="17.0" prefHeight="353.0" prefWidth="347.0" style="-fx-alignment: center; -fx-spacing: 20;" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="17.0">
+         <children>
+            <Button fx:id="SnakeGameButton" mnemonicParsing="false" onAction="#SnakeGameButtonAction" style="-fx-background-color: black;" text="Snake Game" textFill="WHITE">
+               <font>
+                  <Font name="Unispace-Bold" size="28.0" />
+               </font>
+            </Button>
+            <Button fx:id="SovietSnakeGameButton" mnemonicParsing="false" onAction="#SovietSnakeGameButtonAction" prefWidth="329.0" style="-fx-background-color: red;" text="Soviet Snake Game" textFill="WHITE">
+               <font>
+                  <Font name="Unispace-Bold" size="28.0" />
+               </font>
+            </Button>
+            <Button fx:id="LevelSnakeGameButton" mnemonicParsing="false" onAction="#LevelSnakeGameButtonAction" style="-fx-background-color: back;" text="Level Snake Game" textFill="WHITE">
+               <font>
+                  <Font name="Unispace-Bold" size="28.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
