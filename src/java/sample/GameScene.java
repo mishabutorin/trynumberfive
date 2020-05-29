@@ -25,7 +25,7 @@ import java.util.Base64;
 import java.util.prefs.Preferences;
 
 public class GameScene extends Scene {
-    private static final int PixelSize = 25;
+    public static final int PixelSize = 25;
 
     private final GraphicsContext graphicsContext;
     private Canvas canvas;
@@ -37,8 +37,8 @@ public class GameScene extends Scene {
     //private final myTimer timer;
     private long time;
 
-//    private final Food food;
-//    private Snake snake;
+    private Food food;
+    private Snake snake;
 
     private boolean inGame;
     private boolean paused;
@@ -46,9 +46,8 @@ public class GameScene extends Scene {
 
     private int score = 0;
 
-   // private final Preferences preferences;
+   //private final Preferences preferences;
 
-    private Label pauseLabel;
     private Label gameOverLabel;
     private Label scoreLabel;
     private Label inGameScoreLabel;
@@ -70,12 +69,12 @@ public class GameScene extends Scene {
 
         graphicsContext = canvas.getGraphicsContext2D();
 
-        //food = new Food(PixelSize, PixelSize);
+        food = new Food(PixelSize, PixelSize);
 
         //timer = new myTimer();
 
-        //  addEventHandler(KeyEvent.KEY_PRESSED, myHandlerForArrows);
-        // MyHandlerForEsc myHandlerForEsc = new MyHandlerForEsc();
+        //addEventHandler(KeyEvent.KEY_PRESSED, myHandlerForArrows);
+       // MyHandlerForEsc myHandlerForEsc = new MyHandlerForEsc();
         //addEventHandler(KeyEvent.KEY_PRESSED, myHandlerForEsc);
 
         initLabels();
@@ -90,10 +89,10 @@ public class GameScene extends Scene {
     public void setTime(long time) {
         this.time = time;
     }
-//
-//   public Snake getSnake() {
-//        return snake;
-//    }
+
+   public Snake getSnake() {
+        return snake;
+    }
 
     private void initLabels() {
         gameOverLabel = new Label("Game Over!");
@@ -114,82 +113,65 @@ public class GameScene extends Scene {
     }
 
     private void initScreen() {
-        score = 0;
+        //начальные объекты на экране
+        score = 0; //количество очков
 
-        renderBackground();
+        renderBackground(); //отрисовка заднего фона
 
         initSnake();
-       // food.setRandomPosition(Width, Height);
+        food.setRandomPosition(Width, Height); //установка рандомной позиции на поле для еды
 
         renderGameElements();
 
     }
 
     private void renderBackground() {
-        graphicsContext.setFill(Color.BLACK);
-        graphicsContext.fillRect(0, 0, Width, Height);
+        //отрисовка заднего фона
+        graphicsContext.setFill(Color.BLACK); //заливка чёрным цветом
+        graphicsContext.fillRect(0, 0, Width, Height); //создание поля(ректангла) с заданными шириной и высотой, с началом координат 0, 0
     }
 
     private void initSnake() {
-        //snake = new Snake(new Point2D(Width / 2f, Height / 2f), new Point2D(Width / 2f - PixelSize, Height / 2f), PixelSize);
+        snake = new Snake(new Point2D(Width / 2f, Height / 2f), new Point2D(Width / 2f - PixelSize, Height / 2f), PixelSize); //создание змеи на поле
     }
 
-//    private boolean checkSnake() {
-//        double posX = snake.getHead().getPosition.getX();
-//        double posY = snake.getHead().getPosition().getY();
-//        return posX >= Width || posX < 0 || posY > Height || posY < 0;
-//    }
+    private boolean checkSnake() {
+        double posX = snake.getHead().getPosition().getX();
+        double posY = snake.getHead().getPosition().getY();
+        return posX >= Width || posX < 0 || posY > Height || posY < 0;
+    }
 
     private void renderGameElements() {
-//        snake.render(graphicsContext);
-//        food.render(graphicsContext);
-//        snake.render(graphicsContext);
+        snake.render(graphicsContext); //отрисока змеи
+        food.render(graphicsContext); //отрисовка еды
     }
 
     private void renderGameOverMessage() {
-        scoreLabel.setText("Ты набрал:" + score);
+        //сообщение, которое выводится после окончания игры
+        scoreLabel.setText("Ты набрал:" + score); //количество очков
 
-        Button restartButton = new Button("Перезапустить");
-        restartButton.setLayoutX(Width / 2f - 125);
-        restartButton.setLayoutY(Height / 2f + 50);
-        restartButton.getStylesheets().add(getClass().getClassLoader().getResource("styles/GameOverStyle.css").toString());
+        Button restartButton = new Button("Перезапустить"); //кнопка перезапуска
+        restartButton.setLayoutX(Width / 2f - 125); //расположение по ширине
+        restartButton.setLayoutY(Height / 2f + 50); //расположение по высоте
+        restartButton.getStylesheets().add(getClass().getClassLoader().getResource("styles/GameOverStyle.css").toString()); //стиль текста и кнопки
 
-        Button exitButton = new Button("Exit");
-        exitButton.setLayoutX(Width / 2f - 50);
-        exitButton.setLayoutY(Height / 2f + 100);
-        exitButton.getStylesheets().add(getClass().getClassLoader().getResource("styles/GameOverStyle.css").toString());
+        Button exitButton = new Button("Выйти"); //кнопка выхода
+        exitButton.setLayoutX(Width / 2f + 30); //расположение по ширине
+        exitButton.setLayoutY(Height / 2f + 50); //расположение по высота
+        exitButton.getStylesheets().add(getClass().getClassLoader().getResource("styles/GameOverStyle.css").toString()); //стиль текста и кнопки
 
-        Button backButton = new Button("Вернуться в меню");
-        backButton.setLayoutX(Width / 2f + 30);
-        backButton.setLayoutY(Height / 2f + 50);
-        backButton.getStylesheets().add(getClass().getClassLoader().getResource("styles/GameOverStyle.css").toString());
-
-        exitButton.setOnAction(event -> System.exit(0));
+        exitButton.setOnAction(event -> System.exit(0)); //действие после нажатия кнопки выхода
 
         restartButton.setOnAction(event -> {
+            //действие после нажатия кнопки перезапуска
             gameOver = false;
-            ((AnchorPane) getRoot()).getChildren().removeAll(gameOverLabel, scoreLabel, restartButton, exitButton, backButton);
+            ((AnchorPane) getRoot()).getChildren().removeAll(gameOverLabel, scoreLabel, restartButton, exitButton); // удаление всех элементов(текста и кнопок)
         });
 
-        //food.setRandomPosition(Width, Height);
-      //  addEventHandler(KeyEvent.KEY_PRESSED, HandlerForArrows);
-        initScreen();
+        initScreen(); //запуска начального экрана
 
-        backButton.setOnAction(event -> {
-            Stage stage = (Stage) getWindow();
-            Parent root = null;
-            try {
-                root = FXMLLoader.load(getClass().getClassLoader().getResource("resources/views/WelcomeView.fxml"));
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-            stage.setScene(new Scene(root));
-            stage.centerOnScreen();
-            stage.show();
-        });
 
-        ((AnchorPane) getRoot()).getChildren().addAll(gameOverLabel, scoreLabel, restartButton, exitButton, backButton);
-    }
+}
 }
 
 //    private class myTimer extends AnimationTimer {

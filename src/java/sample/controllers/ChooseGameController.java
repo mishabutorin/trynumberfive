@@ -3,7 +3,6 @@ package sample.controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -28,39 +27,47 @@ public class ChooseGameController {
     @FXML
     private Button LevelSnakeGameButton;
 
-    private Parent root;
     private Stage parentView;
+    private Parent root;
 
     private long difficulty = 100_000_000;
 
 
-    void SnakeGameButtonAction( ) {
+
+    public void SnakeGameButtonAction() {
         AnchorPane root = new AnchorPane();
 
         parentView = (Stage) SnakeGameButton.getScene().getWindow();
         parentView.setScene(new GameScene(root, difficulty));
         parentView.centerOnScreen();
+        parentView.setTitle("Snake");
         parentView.show();
 
     }
 
 
-    @FXML
-    void SovietSnakeGameButtonAction() {
+
+    public void SovietSnakeGameButtonAction() {
+        AnchorPane root = new AnchorPane();
+
+        parentView = (Stage) SnakeGameButton.getScene().getWindow();
+        parentView.setScene(new GameScene(root, difficulty));
+        parentView.centerOnScreen();
+        parentView.setTitle("Soviet Snake");
+        parentView.show();
 
     }
 
-    @FXML
-    void LevelSnakeGameButtonAction() {
+
+    public void LevelSnakeGameButtonAction() {
+        AnchorPane root = new AnchorPane();
+
+        parentView = (Stage) SnakeGameButton.getScene().getWindow();
+        parentView.setScene(new GameScene(root, difficulty));
+        parentView.centerOnScreen();
+        parentView.setTitle("LevelSnake");
+        parentView.show();
 
     }
 
-
-    @FXML
-    void initialize() {
-        assert SnakeGameButton != null : "fx:id=\"SnakeGameButton\" was not injected: check your FXML file 'ChooseGame.fxml'.";
-        assert SovietSnakeGameButton != null : "fx:id=\"SovietSnakeGameButton\" was not injected: check your FXML file 'ChooseGame.fxml'.";
-        assert LevelSnakeGameButton != null : "fx:id=\"LevelSnakeGameButton\" was not injected: check your FXML file 'ChooseGame.fxml'.";
-
-    }
 }

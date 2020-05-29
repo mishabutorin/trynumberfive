@@ -14,25 +14,24 @@ import java.util.prefs.Preferences;
 
 
 public class App extends Application {
-    public static final int Width = 500;
-    public static final int Height = 500;
+    public static final int Width = 400; //ширина окна
+    public static final int Height = 400; //высота окна
 
 
-    //@Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = null;
+        Parent root = null; //создание сцены с корневым узлом root
 
-        root = FXMLLoader.load((Objects.requireNonNull(getClass().getClassLoader().getResource("views/WelcomeView.fxml"))));
+        root = FXMLLoader.load((Objects.requireNonNull(getClass().getClassLoader().getResource("views/WelcomeView.fxml")))); //загрузка настроект из fxml
 
-       // primaryStage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("images/snake_icon.png")));
-        primaryStage.setTitle("Snake");
-        primaryStage.setScene(new Scene(root, Width, Height));
-        primaryStage.setResizable(false);
-        primaryStage.centerOnScreen();
+        primaryStage.setTitle("App"); //наименование окна
+        primaryStage.setScene(new Scene(root, Width, Height)); //установка сцены для primaryStage
+        primaryStage.setResizable(false); //ограничение по изменению ширины и высоты
+        primaryStage.centerOnScreen(); //расположение сцены по центру экрана
+
 
         setDefCont();
 
-        primaryStage.show();
+        primaryStage.show(); //показ сцены
 
 
 
