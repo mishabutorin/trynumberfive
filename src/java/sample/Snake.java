@@ -10,8 +10,8 @@ import javafx.scene.paint.Color;
 import java.util.LinkedList;
 
 public class Snake implements Renderable {
-    private LinkedList<MovingGameObject> body = new LinkedList<>();
-    private int bodySize;
+    private final LinkedList<MovingGameObject> body = new LinkedList<>();
+    private final int bodySize;
     private MovingGameObject tail;
 
     private Direction direction = Direction.RIGHT;
@@ -32,10 +32,6 @@ public class Snake implements Renderable {
 
     public MovingGameObject getBody(int index) {
         return body.get(index);
-    }
-
-    public MovingGameObject getTail() {
-        return body.getLast();
     }
 
     public int getLength() {
@@ -87,7 +83,7 @@ public class Snake implements Renderable {
                 return true;
             }
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -125,5 +121,14 @@ public class Snake implements Renderable {
             tail.render(graphicsContext);
         }
 
+    }
+
+    public boolean collide() {
+        for (int i = 1; i < getLength(); i++) {
+            if (getHead().getPosition().equals((getBody(i).getPosition()))) {
+                return true;
+            }
+        }
+        return false;
     }
 }

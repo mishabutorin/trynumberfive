@@ -3,7 +3,6 @@ package sample;
 import com.sun.javafx.scene.traversal.Direction;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,13 +15,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import sample.controllers.SettingsViewController;
-import sample.controllers.WelcomeViewController;
 
-import java.io.IOException;
-import java.util.Base64;
-import java.util.prefs.Preferences;
 
 public class GameScene extends Scene {
     public static final int PixelSize = 25;
@@ -30,30 +23,26 @@ public class GameScene extends Scene {
     private final GraphicsContext graphicsContext;
     private Canvas canvas;
 
-
     public final int Width = 1000;
     public final int Height = 700;
 
-    //private final myTimer timer;
+    private final myTimer timer;
     private long time;
 
     private Food food;
     private Snake snake;
 
     private boolean inGame;
-    private boolean paused;
     private boolean gameOver;
 
     private int score = 0;
-
-   //private final Preferences preferences;
 
     private Label gameOverLabel;
     private Label scoreLabel;
     private Label inGameScoreLabel;
 
+    private final HandlerForArrows handlerForArrows = new HandlerForArrows();
 
-    //private final HandlerForArrows HandlerForArrows = new HandlerForArrows();
 
     public GameScene(Parent root, long time) {
         this(root);
@@ -62,7 +51,6 @@ public class GameScene extends Scene {
 
     public GameScene(Parent root) {
         super(root);
-        Preferences preferences = Preferences.userRoot().node(SettingsViewController.class.getName());
 
         Canvas canvas = new Canvas(Width, Height);
         ((Pane) root).getChildren().add(canvas);
@@ -71,11 +59,10 @@ public class GameScene extends Scene {
 
         food = new Food(PixelSize, PixelSize);
 
-        //timer = new myTimer();
+        timer = new myTimer();
 
-        //addEventHandler(KeyEvent.KEY_PRESSED, myHandlerForArrows);
-       // MyHandlerForEsc myHandlerForEsc = new MyHandlerForEsc();
-        //addEventHandler(KeyEvent.KEY_PRESSED, myHandlerForEsc);
+        addEventHandler(KeyEvent.KEY_PRESSED, handlerForArrows);
+
 
         initLabels();
 
@@ -90,7 +77,7 @@ public class GameScene extends Scene {
         this.time = time;
     }
 
-   public Snake getSnake() {
+    public Snake getSnake() {
         return snake;
     }
 
@@ -113,15 +100,18 @@ public class GameScene extends Scene {
     }
 
     private void initScreen() {
-        //начальные объекты на экране
+        //начальный экран
         score = 0; //количество очков
+
+        inGameScoreLabel.setText("Счёт: " + score); //Счётчик
 
         renderBackground(); //отрисовка заднего фона
 
         initSnake();
+
         food.setRandomPosition(Width, Height); //установка рандомной позиции на поле для еды
 
-        renderGameElements();
+        renderGameElements(); //отображение змеи и яблока
 
     }
 
@@ -132,7 +122,8 @@ public class GameScene extends Scene {
     }
 
     private void initSnake() {
-        snake = new Snake(new Point2D(Width / 2f, Height / 2f), new Point2D(Width / 2f - PixelSize, Height / 2f), PixelSize); //создание змеи на поле
+        snake = new Snake(new Point2D(Width / 2f, Height / 2f),
+                new Point2D(Width / 2f - PixelSize, Height / 2f), PixelSize); //создание змеи на поле
     }
 
     private boolean checkSnake() {
@@ -166,87 +157,87 @@ public class GameScene extends Scene {
             //действие после нажатия кнопки перезапуска
             gameOver = false;
             ((AnchorPane) getRoot()).getChildren().removeAll(gameOverLabel, scoreLabel, restartButton, exitButton); // удаление всех элементов(текста и кнопок)
+
+            initScreen(); //запуск начального экрана
         });
 
-        initScreen(); //запуска начального экрана
+
+    }
 
 
+    private class myTimer extends AnimationTimer {
+        private long lastUpdate = 0;
+
+        @Override
+        public void start() {
+            super.start();
+            inGame = true;
+        }
+
+        @Override
+        public void handle(long now) {
+            if (now - lastUpdate >= time) {
+                addEventHandler(KeyEvent.KEY_PRESSED, handlerForArrows);
+                lastUpdate = now;
+
+                snake.move();
+                if (snake.getHead().intersect(food)) {
+                    do {
+                        food.setRandomPosition(Width, Height);
+                    } while (snake.intersect(food));
+                    int foodPoint = 10;
+                    score += foodPoint;
+                    snake.grow();
+
+                    inGameScoreLabel.setText("Счёт: " + score + "очков.");
+                }
+
+                renderGameElements();
+                if (snake.collide() || checkSnake()) {
+                    gameOver = true;
+                }
+
+                if (gameOver) {
+                    //таймер останавливается
+                    this.stop();
+                    //выводится сообщение окончания игры
+                    renderGameOverMessage();
+                }
+            }
+        }
+    }
+
+
+    private class HandlerForArrows implements EventHandler<KeyEvent> {
+        @Override
+        public void handle(KeyEvent event) {
+            KeyCode keyCode = event.getCode();
+
+            String key = keyCode.toString();
+            String UP = "UP";
+            String DOWN = "DOWN";
+            String RIGHT = "RIGHT";
+            String LEFT = "LEFT";
+            if ((key.equals(UP)) || key.equals(DOWN) || key.equals(LEFT) || key.equals(RIGHT) && !gameOver) {
+                timer.start();
+            }
+            if (key.equals(UP) && snake.getDirection() != Direction.DOWN) {
+                snake.setDirection(Direction.UP);
+            } else {
+                if (key.equals(DOWN) && snake.getDirection() != Direction.UP) {
+                    snake.setDirection(Direction.DOWN);
+                } else {
+                    if (key.equals(LEFT) && snake.getDirection() != Direction.RIGHT) {
+                        snake.setDirection(Direction.LEFT);
+                    } else {
+                        if (key.equals(RIGHT) && snake.getDirection() != Direction.LEFT) {
+                            snake.setDirection(Direction.RIGHT);
+                        }
+                    }
+                }
+            }
+            removeEventHandler(KeyEvent.KEY_PRESSED, this);
+        }
+    }
 }
-}
 
-//    private class myTimer extends AnimationTimer {
-//        private long lastUpdate = 0;
-//
-//        @Override
-//        public void start() {
-//            super.start();
-//            inGame = true;
-//        }
-//
-//        @Override
-//        public void handle(long now) {
-//            addEventHandler(KeyEvent.KEY_PRESSED, HandlerForArrows);
-//            lastUpdate = now;
-//
-//            snake.move();
-//            if (snake.getHead().intersecr(food)) {
-//                do {
-//                    food.setRandomPositin(Width, Height);
-//                }
-//                while (snake.intersect(food));
-//                int foodPoint = 10;
-//                score += foodPoint;
-//                snake.grow();
-//
-//                inGameScoreLabel.setText("Счёт: " + score + "поинтов.");
-//            }
-//            renderGameElements();
-//            if (snake.collide() || checkSnake()) {
-//                gameOver = true;
-//            }
-//
-//            if (gameOver) {
-//                //таймер останавливается
-//                this.stop();
-//                renderGameOverMessage();
-//            }
-//        }
-//    }
-//
-//    private class HandlerForArrows implements EventHandler<KeyEvent> {
-//        @Override
-//        public void handle(KeyEvent event) {
-//            KeyCode keyCode = event.getCode();
-//
-//            String key = keyCode.toString();
-//            String UP = "UP";
-//            String DOWN = "DOWN";
-//            String LEFT = "LEFT";
-//            String RIGHT = "RIGHT";
-//            if ((key.equals(preferences.get(UP, ""))
-//                    || key.equals(preferences.get(DOWN, "")) || key.equals(preferences.get(LEFT, "")) || key.equals(preferences.get(RIGHT, "")) && !gameOver)
-//            ) {
-//                timer.start();
-//            }
-//            if (key.equals(preferences.get(UP, "")) && snake.getDirection() != Direction.DOWN) {
-//                snake.setDirection(Direction.UP);
-//            } else {
-//                if (key.equals(preferences.get(DOWN, "")) && snake.getDirection() != Direction.UP) {
-//                    snake.setDirection(Direction.DOWN);
-//
-//                } else {
-//                    if (key.equals(preferences.get(LEFT, "")) && snake.getDirection() != Direction.RIGHT) {
-//                        snake.setDirection(Direction.LEFT);
-//                    } else {
-//                        if (key.equals(preferences.get(RIGHT, "")) && snake.getDirection() != Direction.LEFT) {
-//                            snake.setDirection(Direction.RIGHT);
-//                        }
-//                    }
-//
-//                }
-//            }
-//            removeEventHandler(KeyEvent.KEY_PRESSED, this);
-//        }
-//    }
-//}
-//
