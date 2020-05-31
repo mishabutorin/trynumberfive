@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 
-public class YamalSnakeGameScene extends Scene {
+public class ReversSnakeGameScene extends Scene {
     public static final int PixelSize = 25;
 
     private final GraphicsContext graphicsContext;
@@ -38,7 +38,7 @@ public class YamalSnakeGameScene extends Scene {
     private AnimationTimer animationTimer;
 
     private final Food food;
-    private YamalSnake snake;
+    private ReverseSnake snake;
 
     private boolean inGame;
     private boolean gameOver;
@@ -56,12 +56,12 @@ public class YamalSnakeGameScene extends Scene {
     private final HandlerForArrows handlerForArrows = new HandlerForArrows();
 
 
-    public YamalSnakeGameScene(Parent root, long time) {
+    public ReversSnakeGameScene(Parent root, long time) {
         this(root);
         this.time = time;
     }
 
-    public YamalSnakeGameScene(Parent root) {
+    public ReversSnakeGameScene(Parent root) {
         super(root);
 
         Canvas canvas = new Canvas(Width, Height);
@@ -71,9 +71,9 @@ public class YamalSnakeGameScene extends Scene {
 
         food = new Food(PixelSize, PixelSize);
 
-        timer = new myTimer(); //добавление таймера
+        timer = new myTimer();
 
-        addEventHandler(KeyEvent.KEY_PRESSED, handlerForArrows); //добавление управления
+        addEventHandler(KeyEvent.KEY_PRESSED, handlerForArrows);
 
         initLabels();
 
@@ -135,7 +135,7 @@ public class YamalSnakeGameScene extends Scene {
     }
 
     private void initSnake() {
-        snake = new YamalSnake(new Point2D(Width / 2f, Height / 2f),
+        snake = new ReverseSnake(new Point2D(Width / 2f, Height / 2f),
                 new Point2D(Width / 2f - PixelSize, Height / 2f), PixelSize);
     }
 
@@ -210,7 +210,6 @@ public class YamalSnakeGameScene extends Scene {
         public void handle(long now) {
             if (now > lastTime + 400000000){
                 lastTime = now;
-                System.out.println(score);
                 food.setRandomPosition(Width, Height);
                 if (snake.getHead().intersect(food)){
                         snake.loss();
@@ -224,8 +223,6 @@ public class YamalSnakeGameScene extends Scene {
                 lastUpdate = now;
 
                 snake.move();
-
-                //food1.setRandomPosition(Width, Height);
                 if (snake.getHead().intersect(food)) {
                     snake.loss();
 

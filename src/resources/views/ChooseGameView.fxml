@@ -14,7 +14,7 @@
                   <Font name="Unispace-Bold" size="28.0" />
                </font>
             </Button>
-            <Button fx:id="SovietSnakeGameButton" mnemonicParsing="false" onAction="#SovietSnakeGameButtonAction" prefHeight="67.0" prefWidth="297.0" stylesheets="@../styles/MainStyle.css" text="Yamal Snake Game" textFill="WHITE">
+            <Button fx:id="SovietSnakeGameButton" mnemonicParsing="false" onAction="#SovietSnakeGameButtonAction" prefHeight="67.0" prefWidth="312.0" stylesheets="@../styles/MainStyle.css" text="Revers Snake Game" textFill="WHITE">
                <font>
                   <Font name="Unispace-Bold" size="28.0" />
                </font>

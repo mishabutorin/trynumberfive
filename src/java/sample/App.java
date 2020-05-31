@@ -17,15 +17,15 @@ public class App extends Application {
 
 
     public void start(Stage primaryStage) throws IOException {
-        Parent root = null; //создание сцены с корневым узлом root
+        Parent root = null;
 
-        root = FXMLLoader.load((Objects.requireNonNull(getClass().getClassLoader().getResource("views/WelcomeView.fxml")))); //загрузка настроект из fxml
+        root = FXMLLoader.load((Objects.requireNonNull(getClass().getClassLoader().getResource("views/WelcomeView.fxml"))));
 
-        primaryStage.setTitle("App"); //наименование окна
-        primaryStage.setScene(new Scene(root, Width, Height)); //установка сцены для primaryStage
-        primaryStage.setResizable(false); //ограничение по изменению ширины и высоты
-        primaryStage.centerOnScreen(); //расположение сцены по центру экрана
+        primaryStage.setTitle("App");
+        primaryStage.setScene(new Scene(root, Width, Height));
+        primaryStage.setResizable(false);
+        primaryStage.centerOnScreen();
 
-        primaryStage.show(); //показ сцены
+        primaryStage.show();
     }
 }

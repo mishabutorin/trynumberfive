@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
 
 import java.util.LinkedList;
 
-public class YamalSnake implements Renderable {
+public class ReverseSnake implements Renderable {
     private final LinkedList<GameObject> body = new LinkedList<>();
     private final int bodySize;
     public GameObject tail;
@@ -18,7 +18,7 @@ public class YamalSnake implements Renderable {
 
     GameObject gameObject = new GameObject();
 
-    public YamalSnake(Point2D head, Point2D tail, int bodySize) {
+    public ReverseSnake(Point2D head, Point2D tail, int bodySize) {
         this.bodySize = bodySize;
         body.add(new GameObject(head, bodySize));
         body.add(new GameObject(tail, bodySize));

@@ -10,7 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import sample.SnakeGameScene;
-import sample.YamalSnakeGameScene;
+import sample.ReversSnakeGameScene;
 
 public class ChooseGameController {
 
@@ -42,7 +42,7 @@ public class ChooseGameController {
         AnchorPane root = new AnchorPane();
 
          parentView = (Stage) SovietSnakeGameButton.getScene().getWindow();
-        parentView.setScene(new YamalSnakeGameScene(root, difficulty));
+        parentView.setScene(new ReversSnakeGameScene(root, difficulty));
         parentView.centerOnScreen();
         parentView.setTitle("Yamal Snake");
         parentView.show();
