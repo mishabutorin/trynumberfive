@@ -1,0 +1,15 @@
+.button {
+ -fx-font-family: "Tough Sans Regular";
+    -fx-font-size: 25px;
+    -fx-background-color: black;
+  wa
+}
+
+.label {
+-fx-text-fill: black;
+-fx-font-family: "Tough Sans Regular";
+}
+
+.button:hover {
+    -fx-text-fill: red;
+}

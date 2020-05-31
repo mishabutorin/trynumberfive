@@ -5,13 +5,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.251" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.WelcomeViewController">
+<AnchorPane prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: black;" stylesheets="@../styles/MainStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.WelcomeViewController">
    <children>
       <VBox layoutX="81.0" layoutY="50.0" prefHeight="300.0" prefWidth="238.0" style="-fx-alignment: center; -fx-spacing: 20;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="81.0" AnchorPane.rightAnchor="81.0" AnchorPane.topAnchor="50.0">
          <children>
             <Button fx:id="startButton" mnemonicParsing="false" onAction="#startButtonAction" style="-fx-background-color: black;" text="Start" textFill="WHITE">
                <font>
-                  <Font name="Unispace-Bold" size="28.0" />
+                  <Font size="28.0" />
                </font>
             </Button>
             <Button fx:id="settingsButton" layoutY="100.0" mnemonicParsing="false" onAction="#settingsButtonAction" prefHeight="60.0" prefWidth="188.0" style="-fx-background-color: black;" text="Settings" textFill="WHITE">

@@ -6,9 +6,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import sample.GameScene;
+
+import java.util.Objects;
 
 public class WelcomeViewController {
 
@@ -22,22 +22,14 @@ public class WelcomeViewController {
     private Parent root;
     private Stage parentView;
 
-    private long difficulty = 100_000_000;
-
     public void exit() {
         System.exit(0);
     }
 
     public void startButtonAction() {
-//        AnchorPane root = new AnchorPane();
-//
-//        parentView = (Stage) startButton.getScene().getWindow();
-//        parentView.setScene(new GameScene(root, difficulty));
-//        parentView.centerOnScreen();
-//        parentView.show();
-        parentView = (Stage) settingsButton.getScene().getWindow();
+        parentView = (Stage) startButton.getScene().getWindow();
 
-        setView(parentView, "views/ChooseGame.fxml");
+        setView(parentView, "views/ChooseGameView.fxml");
     }
 
     public void settingsButtonAction() {
@@ -50,12 +42,12 @@ public class WelcomeViewController {
     public void scoreButtonAction() {
         parentView = (Stage) scoreButton.getScene().getWindow();
 
-        setView(parentView, "views/ScoreView.fxml");
+        setView(parentView, "views/HighScoresView.fxml");
     }
 
     private void setView(Stage stage, String location) {
         try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource(location));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(location)));
         } catch (Exception exception) {
 
             System.exit(0);

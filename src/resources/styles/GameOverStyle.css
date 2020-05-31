@@ -1,14 +1,21 @@
 @font-face {
-    font-family: Lunchtime Doubly So Regular;
-    src: url("../font/lunchds.ttf");
+    font-family: Tough Sans Regular;
+    src: url("../font/toughsans.otf");
 }
 
 .button {
-    -fx-font-family: "Lunchtime Doubly So Regular";
-    -fx-font-size: 25px;
+    -fx-font-family: "Tough Sans Regular";
+    -fx-font-size: 35px;
     -fx-background-color: transparent;
     -fx-text-fill: white;
 }
+
+.label {
+-fx-font-family: "Tough Sans Regular";
+-fx-text-fill: white;
+-fx-font-size: 15px;
+}
+
 
 .button:hover {
     -fx-text-fill: red;

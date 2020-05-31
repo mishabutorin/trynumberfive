@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
 
 import java.util.LinkedList;
 
-public class Snake implements Renderable {
+public class SovietSnake implements Renderable {
     private final LinkedList<GameObject> body = new LinkedList<>();
     private final int bodySize;
     public GameObject tail;
@@ -18,9 +18,18 @@ public class Snake implements Renderable {
 
     GameObject gameObject = new GameObject();
 
-    public Snake(Point2D head, Point2D tail, int bodySize) {
+    public SovietSnake(Point2D head, Point2D tail, int bodySize) {
         this.bodySize = bodySize;
         body.add(new GameObject(head, bodySize));
+        body.add(new GameObject(tail, bodySize));
+        body.add(new GameObject(tail, bodySize));
+        body.add(new GameObject(tail, bodySize));
+        body.add(new GameObject(tail, bodySize));
+        body.add(new GameObject(tail, bodySize));
+        body.add(new GameObject(tail, bodySize));
+        body.add(new GameObject(tail, bodySize));
+        body.add(new GameObject(tail, bodySize));
+        body.add(new GameObject(tail, bodySize));
         body.add(new GameObject(tail, bodySize));
     }
 
@@ -72,8 +81,8 @@ public class Snake implements Renderable {
 
 
 
-    public void grow() {
-        body.add(gameObject); //добавление частей к змейке
+    public void loss() {
+        body.pollFirst(); //убавление частей змейки
     }
 
 
@@ -91,34 +100,34 @@ public class Snake implements Renderable {
     public void render(GraphicsContext graphicsContext) {
         switch (direction) {
             case UP: {
-                Assets.snakeHead.setRotate(180);
+                Assets.sovietSnakeHead.setRotate(180);
                 break;
             }
             case DOWN: {
-                Assets.snakeHead.setRotate(0);
+                Assets.sovietSnakeHead.setRotate(0);
                 break;
             }
             case LEFT: {
-                Assets.snakeHead.setRotate(90);
+                Assets.sovietSnakeHead.setRotate(90);
                 break;
             }
             case RIGHT: {
-                Assets.snakeHead.setRotate(-90);
+                Assets.sovietSnakeHead.setRotate(-90);
                 break;
             }
         }
-        graphicsContext.drawImage(Assets.snakeHead.snapshot(new SnapshotParameters(), null),
+        graphicsContext.drawImage(Assets.sovietSnakeHead.snapshot(new SnapshotParameters(), null),
                 getHead().getPosition().getX() + 1,
                 getHead().getPosition().getY() + 1,
                 23,
                 23);
-        graphicsContext.drawImage(Assets.snakeBody.getImage(),
+        graphicsContext.drawImage(Assets.sovietSnakeBody.getImage(),
                 getNeck().getPosition().getX() + 1,
                 getNeck().getPosition().getY() + 1,
                 23,
                 23);
         if (tail != null) {
-            graphicsContext.setFill(Color.BLACK);
+            graphicsContext.setFill(Color.FIREBRICK);
             tail.render(graphicsContext);
         }
 

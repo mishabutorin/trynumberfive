@@ -1,6 +1,9 @@
 package sample.controllers;
 
-
+import java.net.URL;
+import java.util.Objects;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,11 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-import java.util.Objects;
-
-
-
-public class SettingsViewController {
+public class HighScoreViewController {
 
     @FXML
     private Button backButton;
@@ -20,11 +19,13 @@ public class SettingsViewController {
     private Parent root;
     private Stage parentView;
 
-    public void backButtonAction( )  {
+    @FXML
+    void backButtonAction( ) {
         parentView = (Stage) backButton.getScene().getWindow();
 
         setView(parentView, "views/WelcomeView.fxml");
     }
+
     private void setView(Stage stage, String location) {
         try {
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(location)));

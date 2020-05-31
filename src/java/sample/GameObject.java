@@ -6,14 +6,13 @@ import javafx.scene.canvas.GraphicsContext;
 
 import java.util.Random;
 
-import static sample.GameScene.PixelSize;
+import static sample.SnakeGameScene.PixelSize;
 
 public class GameObject implements Renderable {
     protected Point2D position;
     protected double width;
     protected double height;
     protected boolean alive;
-
 
     public GameObject() {
         position = new Point2D(0, 0);
@@ -62,5 +61,4 @@ public class GameObject implements Renderable {
         setPosition(new Point2D(random.nextInt((width) / PixelSize) * PixelSize,
                 random.nextInt((height) / PixelSize) * PixelSize));
     }
-
 }
