@@ -42,13 +42,13 @@ public class ChooseGameController {
     }
 
     public void SovietSnakeGameButtonAction() {
-//        AnchorPane root = new AnchorPane();
-//
+        AnchorPane root = new AnchorPane();
+
          parentView = (Stage) SovietSnakeGameButton.getScene().getWindow();
-//        parentView.setScene(new SovietSnakeGameScene(root, difficulty));
-//        parentView.centerOnScreen();
-//        parentView.setTitle("Soviet Snake");
-//        parentView.show();
+        parentView.setScene(new SovietSnakeGameScene(root, difficulty));
+        parentView.centerOnScreen();
+        parentView.setTitle("Soviet Snake");
+        parentView.show();
 
     }
 

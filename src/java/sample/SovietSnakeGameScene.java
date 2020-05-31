@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -134,7 +135,7 @@ public class SovietSnakeGameScene extends Scene {
 
     private void renderBackground() {
         //отрисовка заднего фона
-        graphicsContext.setFill(Color.FIREBRICK); //заливка чёрным цветом
+        graphicsContext.setFill(Color.RED); //заливка чёрным цветом
         graphicsContext.fillRect(0, 0, Width, Height); //создание поля(ректангла) с заданными шириной и высотой, с началом координат 0, 0
     }
 

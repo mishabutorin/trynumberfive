@@ -8,5 +8,5 @@ public class Food extends GameObject{
     @Override
     public void render(GraphicsContext graphicsContext) {
         graphicsContext.drawImage(Assets.apple.getImage(), position.getX(), position.getY()); // отрисовка картинки яблока
-    }
+        }
 }

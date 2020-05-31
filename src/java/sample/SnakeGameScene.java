@@ -15,6 +15,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -27,12 +29,17 @@ public class SnakeGameScene extends Scene {
 
     private final GraphicsContext graphicsContext;
 
+    public static Audio done;
+
+    private MediaPlayer sound;
+
     public final int Width = 1000;
     public final int Height = 700;
 
     private final myTimer timer;
     private long time;
 
+    private final GoldenFood goldenFood;
     private final Food food;
     private Snake snake;
 
@@ -65,8 +72,9 @@ public class SnakeGameScene extends Scene {
 
         graphicsContext = canvas.getGraphicsContext2D();
 
+        goldenFood = new GoldenFood(PixelSize, PixelSize);
 
-        food = new Food(PixelSize, PixelSize); //создание новой еды
+        food = new Food(PixelSize, PixelSize);
 
         timer = new myTimer(); //добавление таймера
 
@@ -115,6 +123,8 @@ public class SnakeGameScene extends Scene {
 
         initSnake();
 
+        goldenFood.setRandomPosition(Width, Height);
+
         food.setRandomPosition(Width, Height); //установка рандомной позиции на поле для еды
 
         renderGameElements(); //отображение змеи и яблока
@@ -142,6 +152,9 @@ public class SnakeGameScene extends Scene {
     private void renderGameElements() {
         snake.render(graphicsContext); //отрисока змеи
         food.render(graphicsContext); //отрисовка еды
+        if (score % 50 == 0) {
+            goldenFood.render(graphicsContext);
+        }
     }
 
     public void renderGameOverMessage() {
@@ -176,18 +189,19 @@ public class SnakeGameScene extends Scene {
         ((AnchorPane) getRoot()).getChildren().addAll(gameOverLabel, scoreLabel, restartButton, exitButton, backButton); //добавление всех элементов
 
         backButton.setOnAction(event -> {
-                Stage stage = (Stage) getWindow();
-                Parent root = null;
+            Stage stage = (Stage) getWindow();
+            Parent root = null;
             try {
                 root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("views/ChooseGameView.fxml")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
             stage.setScene(new Scene(root));
-                stage.centerOnScreen();
-                stage.show();
-            });
+            stage.centerOnScreen();
+            stage.show();
+        });
     }
+
 
     private class myTimer extends AnimationTimer {
         //создание таймера
@@ -217,20 +231,35 @@ public class SnakeGameScene extends Scene {
                     snake.grow(); //змея растёт
 
                     GameScoreLabel.setText("Score: " + score + " pt."); //счётчик очков
-                }
 
-                renderGameElements();
 
-                if (snake.collide() || checkSnake()) {
-                    //проверка на столкновение или самопоедание
-                    gameOver = true;
-                    timer.stop();
                 }
+                if (snake.getHead().intersect(goldenFood)) { //если голова смеи в зоне еды
+                    do {
+                        goldenFood.norender(graphicsContext);
+                        //еде назначается новая рандомная позиия
+                    } while (snake.intersect(food)); //выполняется до момента пока игра не закончится
+                    int foodPoint = 100; //количество очков за съеденную еду
+                    score += foodPoint; //к счёту добавляется количество очков
+                    snake.grow(); //змея растёт
 
-                if (gameOver) {
-                    this.stop(); //таймер останавливается
-                    renderGameOverMessage(); //выводится сообщение окончания игры
+                    GameScoreLabel.setText("Score: " + score + " pt."); //счётчик очков
+
+
                 }
+            }
+
+            renderGameElements();
+
+            if (snake.collide() || checkSnake()) {
+                //проверка на столкновение или самопоедание
+                gameOver = true;
+                timer.stop();
+            }
+
+            if (gameOver) {
+                this.stop(); //таймер останавливается
+                renderGameOverMessage(); //выводится сообщение окончания игры
             }
         }
     }
