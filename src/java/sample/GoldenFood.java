@@ -11,7 +11,4 @@ public class GoldenFood extends GameObject{
         graphicsContext.drawImage(Assets.goldenApple.getImage(), position.getX(), position.getY());
     }
 
-    public void norender(GraphicsContext graphicsContext) {
-        graphicsContext.setFill(Color.BLACK);
-    }
 }

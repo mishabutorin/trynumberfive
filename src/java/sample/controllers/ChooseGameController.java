@@ -1,10 +1,7 @@
 package sample.controllers;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.Objects;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import sample.SnakeGameScene;
-import sample.SovietSnakeGameScene;
+import sample.YamalSnakeGameScene;
 
 public class ChooseGameController {
 
@@ -45,9 +42,9 @@ public class ChooseGameController {
         AnchorPane root = new AnchorPane();
 
          parentView = (Stage) SovietSnakeGameButton.getScene().getWindow();
-        parentView.setScene(new SovietSnakeGameScene(root, difficulty));
+        parentView.setScene(new YamalSnakeGameScene(root, difficulty));
         parentView.centerOnScreen();
-        parentView.setTitle("Soviet Snake");
+        parentView.setTitle("Yamal Snake");
         parentView.show();
 
     }

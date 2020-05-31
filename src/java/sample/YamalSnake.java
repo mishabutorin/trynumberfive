@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
 
 import java.util.LinkedList;
 
-public class SovietSnake implements Renderable {
+public class YamalSnake implements Renderable {
     private final LinkedList<GameObject> body = new LinkedList<>();
     private final int bodySize;
     public GameObject tail;
@@ -18,7 +18,7 @@ public class SovietSnake implements Renderable {
 
     GameObject gameObject = new GameObject();
 
-    public SovietSnake(Point2D head, Point2D tail, int bodySize) {
+    public YamalSnake(Point2D head, Point2D tail, int bodySize) {
         this.bodySize = bodySize;
         body.add(new GameObject(head, bodySize));
         body.add(new GameObject(tail, bodySize));
@@ -82,7 +82,7 @@ public class SovietSnake implements Renderable {
 
 
     public void loss() {
-        body.pollFirst(); //убавление частей змейки
+        body.remove(2); //убавление частей змейки
     }
 
 
@@ -100,34 +100,34 @@ public class SovietSnake implements Renderable {
     public void render(GraphicsContext graphicsContext) {
         switch (direction) {
             case UP: {
-                Assets.sovietSnakeHead.setRotate(180);
+                Assets.snakeHead.setRotate(180);
                 break;
             }
             case DOWN: {
-                Assets.sovietSnakeHead.setRotate(0);
+                Assets.snakeHead.setRotate(0);
                 break;
             }
             case LEFT: {
-                Assets.sovietSnakeHead.setRotate(90);
+                Assets.snakeHead.setRotate(90);
                 break;
             }
             case RIGHT: {
-                Assets.sovietSnakeHead.setRotate(-90);
+                Assets.snakeHead.setRotate(-90);
                 break;
             }
         }
-        graphicsContext.drawImage(Assets.sovietSnakeHead.snapshot(new SnapshotParameters(), null),
+        graphicsContext.drawImage(Assets.snakeHead.snapshot(new SnapshotParameters(), null),
                 getHead().getPosition().getX() + 1,
                 getHead().getPosition().getY() + 1,
                 23,
                 23);
-        graphicsContext.drawImage(Assets.sovietSnakeBody.getImage(),
+        graphicsContext.drawImage(Assets.snakeBody.getImage(),
                 getNeck().getPosition().getX() + 1,
                 getNeck().getPosition().getY() + 1,
                 23,
                 23);
         if (tail != null) {
-            graphicsContext.setFill(Color.FIREBRICK);
+            graphicsContext.setFill(Color.BLACK);
             tail.render(graphicsContext);
         }
 

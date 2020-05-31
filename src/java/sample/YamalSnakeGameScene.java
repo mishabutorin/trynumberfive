@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 
-public class SnakeGameScene extends Scene {
+public class YamalSnakeGameScene extends Scene {
     public static final int PixelSize = 25;
 
     private final GraphicsContext graphicsContext;
@@ -34,15 +34,18 @@ public class SnakeGameScene extends Scene {
     private final myTimer timer;
     private long time;
 
-    private final GoldenFood goldenFood;
+
+    private AnimationTimer animationTimer;
+
     private final Food food;
-    private Snake snake;
+    private YamalSnake snake;
 
     private boolean inGame;
     private boolean gameOver;
 
     private int score = 0;
 
+    private Label timeLabel;
     private Label gameOverLabel;
     private Label scoreLabel;
     private Label GameScoreLabel;
@@ -53,20 +56,18 @@ public class SnakeGameScene extends Scene {
     private final HandlerForArrows handlerForArrows = new HandlerForArrows();
 
 
-    public SnakeGameScene(Parent root, long time) {
+    public YamalSnakeGameScene(Parent root, long time) {
         this(root);
         this.time = time;
     }
 
-    public SnakeGameScene(Parent root) {
+    public YamalSnakeGameScene(Parent root) {
         super(root);
 
         Canvas canvas = new Canvas(Width, Height);
         ((Pane) root).getChildren().add(canvas);
 
         graphicsContext = canvas.getGraphicsContext2D();
-
-        goldenFood = new GoldenFood(PixelSize, PixelSize);
 
         food = new Food(PixelSize, PixelSize);
 
@@ -80,6 +81,11 @@ public class SnakeGameScene extends Scene {
     }
 
     private void initLabels() {
+        timeLabel = new Label();
+        timeLabel.setLayoutX(0);
+        timeLabel.setLayoutY(50);
+        timeLabel.getStylesheets().add(Objects.requireNonNull(getClass().getClassLoader().getResource("styles/overallStyle.css")).toString());
+
         snakeGameLabel = new Label("Snake Game!");
         snakeGameLabel.setLayoutX(Width / 2f - 85);
         snakeGameLabel.setLayoutY(Height / 2f - 75);
@@ -103,7 +109,7 @@ public class SnakeGameScene extends Scene {
         GameScoreLabel.setLayoutX(0);
         GameScoreLabel.setLayoutY(0);
         GameScoreLabel.getStylesheets().add(Objects.requireNonNull(getClass().getClassLoader().getResource("styles/GameOverStyle.css")).toString());
-        ((AnchorPane) getRoot()).getChildren().addAll(GameScoreLabel, snakeGameLabel, pressEnterLabel);
+        ((AnchorPane) getRoot()).getChildren().addAll(GameScoreLabel, snakeGameLabel, pressEnterLabel, timeLabel);
 
     }
 
@@ -117,8 +123,6 @@ public class SnakeGameScene extends Scene {
 
         initSnake();
 
-        goldenFood.setRandomPosition(Width, Height);
-
         food.setRandomPosition(Width, Height);
 
         renderGameElements();
@@ -131,7 +135,7 @@ public class SnakeGameScene extends Scene {
     }
 
     private void initSnake() {
-        snake = new Snake(new Point2D(Width / 2f, Height / 2f),
+        snake = new YamalSnake(new Point2D(Width / 2f, Height / 2f),
                 new Point2D(Width / 2f - PixelSize, Height / 2f), PixelSize);
     }
 
@@ -144,9 +148,6 @@ public class SnakeGameScene extends Scene {
     private void renderGameElements() {
         snake.render(graphicsContext);
         food.render(graphicsContext);
-        if (score % 100 == 0 && score != 0) {
-            goldenFood.render(graphicsContext);
-        }
     }
 
     public void renderGameOverMessage() {
@@ -192,10 +193,10 @@ public class SnakeGameScene extends Scene {
         });
     }
 
-
     private class myTimer extends AnimationTimer {
 
         private long lastUpdate = 0;
+        private long lastTime = 0;
 
         @Override
         public void start() {
@@ -207,35 +208,33 @@ public class SnakeGameScene extends Scene {
 
         @Override
         public void handle(long now) {
+            if (now > lastTime + 400000000){
+                lastTime = now;
+                System.out.println(score);
+                food.setRandomPosition(Width, Height);
+                if (snake.getHead().intersect(food)){
+                        snake.loss();
+                }
+            }
+
             if (now - lastUpdate >= time) {
                 addEventHandler(KeyEvent.KEY_PRESSED, handlerForArrows);
+                score++;
+                GameScoreLabel.setText("Score: " + score + " pt.");
                 lastUpdate = now;
 
                 snake.move();
+
+                //food1.setRandomPosition(Width, Height);
                 if (snake.getHead().intersect(food)) {
-                    do {
-                        food.setRandomPosition(Width, Height);
-                    } while (snake.intersect(food));
-                    int foodPoint = 10;
-                    score += foodPoint;
-                    snake.grow();
+                    snake.loss();
 
-                    GameScoreLabel.setText("Score: " + score + " pt.");
-
-                }
-
-                if (snake.getHead().intersect(goldenFood)) {
-                    int foodPoint = 50;
-                    score += foodPoint;
-                    snake.grow();
-
-                    GameScoreLabel.setText("Score: " + score + " pt.");
                 }
             }
 
             renderGameElements();
 
-            if (snake.collide() || checkSnake()) {
+            if (snake.collide() || checkSnake() || snake.getLength() == 2) {
                 gameOver = true;
                 timer.stop();
             }
