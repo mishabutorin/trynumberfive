@@ -211,7 +211,7 @@ public class ReversSnakeGameScene extends Scene {
             if (now > lastTime + 400000000){
                 lastTime = now;
                 food.setRandomPosition(Width, Height);
-                if (snake.getHead().intersect(food)){
+                if (snake.intersect(food)){
                         snake.loss();
                 }
             }
@@ -267,7 +267,6 @@ public class ReversSnakeGameScene extends Scene {
                     }
                 }
             }
-            removeEventHandler(KeyEvent.KEY_PRESSED, this);
         }
     }
 }

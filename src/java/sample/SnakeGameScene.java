@@ -38,7 +38,6 @@ public class SnakeGameScene extends Scene {
     private final Food food;
     private Snake snake;
 
-    private boolean inGame;
     private boolean gameOver;
 
     private int score = 0;
@@ -201,7 +200,7 @@ public class SnakeGameScene extends Scene {
         public void start() {
             //запуск таймера
             super.start();
-            inGame = true;
+            boolean inGame = true;
         }
 
 
@@ -271,7 +270,6 @@ public class SnakeGameScene extends Scene {
                     }
                 }
             }
-            removeEventHandler(KeyEvent.KEY_PRESSED, this);
         }
     }
 }

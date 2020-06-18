@@ -12,12 +12,12 @@ import java.util.Objects;
 
 
 public class App extends Application {
-    public static final int Width = 400; //ширина окна
-    public static final int Height = 400; //высота окна
+    public static final int Width = 400;
+    public static final int Height = 400;
 
 
     public void start(Stage primaryStage) throws IOException {
-        Parent root = null;
+        Parent root;
 
         root = FXMLLoader.load((Objects.requireNonNull(getClass().getClassLoader().getResource("views/WelcomeView.fxml"))));
 
