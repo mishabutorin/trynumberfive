@@ -79,10 +79,8 @@ public class ReverseSnake implements Renderable {
         body.addFirst(new GameObject(newPos, bodySize));
     }
 
-
-
     public void loss() {
-        body.remove(2); //убавление частей змейки
+        body.remove(gameObject); //убавление частей змейки
     }
 
 

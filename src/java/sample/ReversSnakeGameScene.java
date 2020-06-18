@@ -34,18 +34,13 @@ public class ReversSnakeGameScene extends Scene {
     private final myTimer timer;
     private long time;
 
-
-    private AnimationTimer animationTimer;
-
     private final Food food;
     private ReverseSnake snake;
 
-    private boolean inGame;
     private boolean gameOver;
 
     private int score = 0;
 
-    private Label timeLabel;
     private Label gameOverLabel;
     private Label scoreLabel;
     private Label GameScoreLabel;
@@ -81,7 +76,7 @@ public class ReversSnakeGameScene extends Scene {
     }
 
     private void initLabels() {
-        timeLabel = new Label();
+        Label timeLabel = new Label();
         timeLabel.setLayoutX(0);
         timeLabel.setLayoutY(50);
         timeLabel.getStylesheets().add(Objects.requireNonNull(getClass().getClassLoader().getResource("styles/overallStyle.css")).toString());
@@ -202,7 +197,7 @@ public class ReversSnakeGameScene extends Scene {
         public void start() {
             //запуск таймера
             super.start();
-            inGame = true;
+            boolean inGame = true;
         }
 
 
@@ -211,7 +206,7 @@ public class ReversSnakeGameScene extends Scene {
             if (now > lastTime + 400000000){
                 lastTime = now;
                 food.setRandomPosition(Width, Height);
-                if (snake.intersect(food)){
+                if (snake.getHead().intersect(food)){
                         snake.loss();
                 }
             }
@@ -223,10 +218,6 @@ public class ReversSnakeGameScene extends Scene {
                 lastUpdate = now;
 
                 snake.move();
-                if (snake.getHead().intersect(food)) {
-                    snake.loss();
-
-                }
             }
 
             renderGameElements();
