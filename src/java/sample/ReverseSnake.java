@@ -16,8 +16,6 @@ public class ReverseSnake implements Renderable {
 
     private Direction direction = Direction.RIGHT;
 
-    GameObject gameObject = new GameObject();
-
     public ReverseSnake(Point2D head, Point2D tail, int bodySize) {
         this.bodySize = bodySize;
         body.add(new GameObject(head, bodySize));
@@ -36,10 +34,6 @@ public class ReverseSnake implements Renderable {
 
     public GameObject getHead() {
         return body.getFirst();
-    }
-
-    public GameObject getNeck() {
-        return body.get(1);
     }
 
     public GameObject getBody(int index) {
@@ -80,7 +74,7 @@ public class ReverseSnake implements Renderable {
     }
 
     public void loss() {
-        body.remove(gameObject);
+        body.pollLast();
     }
 
 
@@ -120,8 +114,8 @@ public class ReverseSnake implements Renderable {
                 23,
                 23);
         graphicsContext.drawImage(Assets.snakeBody.getImage(),
-                getNeck().getPosition().getX() + 1,
-                getNeck().getPosition().getY() + 1,
+                body.get(1).getPosition().getX() + 1,
+                body.get(1).getPosition().getY() + 1,
                 23,
                 23);
         if (tail != null) {

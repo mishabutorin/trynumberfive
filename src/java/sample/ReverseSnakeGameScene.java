@@ -198,22 +198,21 @@ public class ReverseSnakeGameScene extends Scene {
 
         @Override
         public void handle(long now) {
-            if (now > lastTime + 400000000){
-                lastTime = now;
+            if (now > lastTime + 500000000){
+                lastTime = now;score++;
                 food.setRandomPosition(Width, Height);
             }
+
             if (now - lastUpdate >= time) {
                 addEventHandler(KeyEvent.KEY_PRESSED, handlerForArrows);
                 lastUpdate = now;
-                score++;
+
+                GameScoreLabel.setText("Score: " + score + " pt.");
 
                 snake.move();
                 if (snake.getHead().intersect(food)) {
                     while (snake.intersect(food));
                     snake.loss();
-
-                    GameScoreLabel.setText("Score: " + score + " pt.");
-
                 }
 
             }
