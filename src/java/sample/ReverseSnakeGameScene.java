@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 
-public class ReversSnakeGameScene extends Scene {
+public class ReverseSnakeGameScene extends Scene {
     public static final int PixelSize = 25;
 
     private final GraphicsContext graphicsContext;
@@ -48,15 +48,15 @@ public class ReversSnakeGameScene extends Scene {
     private Label pressEnterLabel;
 
 
-    private final HandlerForArrows handlerForArrows = new HandlerForArrows();
+    private final HandlerControl handlerForArrows = new HandlerControl();
 
 
-    public ReversSnakeGameScene(Parent root, long time) {
+    public ReverseSnakeGameScene(Parent root, long time) {
         this(root);
         this.time = time;
     }
 
-    public ReversSnakeGameScene(Parent root) {
+    public ReverseSnakeGameScene(Parent root) {
         super(root);
 
         Canvas canvas = new Canvas(Width, Height);
@@ -66,9 +66,9 @@ public class ReversSnakeGameScene extends Scene {
 
         food = new Food(PixelSize, PixelSize);
 
-        timer = new myTimer();
+        timer = new myTimer(); //добавление таймера
 
-        addEventHandler(KeyEvent.KEY_PRESSED, handlerForArrows);
+        addEventHandler(KeyEvent.KEY_PRESSED, handlerForArrows); //добавление управления
 
         initLabels();
 
@@ -76,11 +76,6 @@ public class ReversSnakeGameScene extends Scene {
     }
 
     private void initLabels() {
-        Label timeLabel = new Label();
-        timeLabel.setLayoutX(0);
-        timeLabel.setLayoutY(50);
-        timeLabel.getStylesheets().add(Objects.requireNonNull(getClass().getClassLoader().getResource("styles/overallStyle.css")).toString());
-
         snakeGameLabel = new Label("Snake Game!");
         snakeGameLabel.setLayoutX(Width / 2f - 85);
         snakeGameLabel.setLayoutY(Height / 2f - 75);
@@ -104,7 +99,7 @@ public class ReversSnakeGameScene extends Scene {
         GameScoreLabel.setLayoutX(0);
         GameScoreLabel.setLayoutY(0);
         GameScoreLabel.getStylesheets().add(Objects.requireNonNull(getClass().getClassLoader().getResource("styles/GameOverStyle.css")).toString());
-        ((AnchorPane) getRoot()).getChildren().addAll(GameScoreLabel, snakeGameLabel, pressEnterLabel, timeLabel);
+        ((AnchorPane) getRoot()).getChildren().addAll(GameScoreLabel, snakeGameLabel, pressEnterLabel);
 
     }
 
@@ -117,6 +112,7 @@ public class ReversSnakeGameScene extends Scene {
         renderBackground();
 
         initSnake();
+
 
         food.setRandomPosition(Width, Height);
 
@@ -188,6 +184,7 @@ public class ReversSnakeGameScene extends Scene {
         });
     }
 
+
     private class myTimer extends AnimationTimer {
 
         private long lastUpdate = 0;
@@ -195,9 +192,7 @@ public class ReversSnakeGameScene extends Scene {
 
         @Override
         public void start() {
-            //запуск таймера
             super.start();
-            boolean inGame = true;
         }
 
 
@@ -206,23 +201,26 @@ public class ReversSnakeGameScene extends Scene {
             if (now > lastTime + 400000000){
                 lastTime = now;
                 food.setRandomPosition(Width, Height);
-                if (snake.getHead().intersect(food)){
-                        snake.loss();
-                }
             }
-
             if (now - lastUpdate >= time) {
                 addEventHandler(KeyEvent.KEY_PRESSED, handlerForArrows);
-                score++;
-                GameScoreLabel.setText("Score: " + score + " pt.");
                 lastUpdate = now;
+                score++;
 
                 snake.move();
+                if (snake.getHead().intersect(food)) {
+                    while (snake.intersect(food));
+                    snake.loss();
+
+                    GameScoreLabel.setText("Score: " + score + " pt.");
+
+                }
+
             }
 
             renderGameElements();
 
-            if (snake.collide() || checkSnake() || snake.getLength() == 2) {
+            if (snake.collide() || checkSnake()) {
                 gameOver = true;
                 timer.stop();
             }
@@ -234,7 +232,7 @@ public class ReversSnakeGameScene extends Scene {
         }
     }
 
-    private class HandlerForArrows implements EventHandler<KeyEvent> {
+    private class HandlerControl implements EventHandler<KeyEvent> {
         @Override
         public void handle(KeyEvent event) {
             //назначение управления
